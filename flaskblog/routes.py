@@ -8,7 +8,6 @@ from flaskblog.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
 from flaskblog.models import Hash, User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
-from scholarly import scholarly
 import hashlib
 
 @app.route("/")
