@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block content %}
+  <article class="media content-section">
+
+    <div class="media-body">
+      <div class="article-metadata">
+        {% if post.user2_id%}
+                <a class="mr-2" href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+                <a class="mr-2" href="{{ url_for('user_posts', username=post.user2) }}">{{ post.user2 }}</a>
+        {% else %}
+                <a class="mr-2" href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+        {% endif %}
+        <br>
+        <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+        {% if post.author == current_user %}
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_post', post_id=post.id) }}">Update</a>
+            <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+          </div>
+        {% endif %}
+      </div>
+      <h3 class="article-title">{{ post.title }}</h3>
+      <h5 class="article-title">{{ post.journal }}</h5>
+      <h6 class="article-title">Paper ID- {{ post.id }}</h6>
+      <br>
+      <div class='row'>
+        <div class= 'col-md-6'>
+          <h8 class="article-title">DOI Number- {{ post.doi }}</h8>
+        </div>
+        <div class= 'col-md-6'>
+          <h8 class="article-title">Volume- {{ post.volume }}</h8></h8>
+        </div>
+      </div>
+      <div class='row'>
+        <div class= 'col-md-6'>
+          <h8 class="article-title">Issue- {{ post.issue }}</h8>
+        </div>
+        <div class= 'col-md-6'>
+          <h8 class="article-title">Page Number- {{ post.page }}</h8></h8>
+        </div>
+      </div>
+      <br>
+      
+      <p class="article-content">{{ post.content }}</p>
+    </div>
+  </article>
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
